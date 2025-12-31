@@ -14,14 +14,15 @@ export function mountDashboard(){
     if(uiApproval) uiApproval.textContent = `${approval}%`;
     if(approvalBar) approvalBar.style.width = `${Math.max(0, Math.min(100, approval))}%`;
     
-    // Update color based on approval level
+    // Update color class based on approval level using CSS variables
     if(approvalBar){
+      approvalBar.classList.remove('status__bar-fill--bad', 'status__bar-fill--warn', 'status__bar-fill--good');
       if(approval <= 25){
-        approvalBar.style.background = 'linear-gradient(90deg, #ff6b6b, #ff4757)';
+        approvalBar.classList.add('status__bar-fill--bad');
       } else if(approval <= 40){
-        approvalBar.style.background = 'linear-gradient(90deg, #ffcc33, #ffa502)';
+        approvalBar.classList.add('status__bar-fill--warn');
       } else {
-        approvalBar.style.background = 'linear-gradient(90deg, #5ce07a, #4ecdc4)';
+        approvalBar.classList.add('status__bar-fill--good');
       }
     }
   }

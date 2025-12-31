@@ -92,7 +92,16 @@ body{
   height:100%;
   background: linear-gradient(90deg, var(--good), #4ecdc4);
   border-radius:2px;
-  transition: width 0.5s ease;
+  transition: width 0.5s ease, background 0.3s ease;
+}
+.status__bar-fill--good{
+  background: linear-gradient(90deg, var(--good), #4ecdc4);
+}
+.status__bar-fill--warn{
+  background: linear-gradient(90deg, var(--warn), #ffa502);
+}
+.status__bar-fill--bad{
+  background: linear-gradient(90deg, var(--bad), #ff4757);
 }
 
 .controls{display:flex; gap:12px; align-items:center}
