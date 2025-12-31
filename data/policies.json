@@ -1,0 +1,108 @@
+{
+  "policies": [
+    {
+      "id": "tax_reform",
+      "title": "税制の組み替え",
+      "department": "財政省",
+      "tag": "財政",
+      "body": "税収の形を変える提案が出ています。短期の反発と、長期の安定は両立しません。",
+      "sources": ["全国紙", "経済誌", "国営放送"],
+      "newsPings": ["税制改革の観測、政界に波紋", "負担と給付を巡る議論が再燃"],
+      "newsBodies": ["論点は単純ではない。国民の体感と、国家の持続性が衝突している。", "支持層の綻びは小さく始まり、大きく広がる。"],
+      "choices": [
+        {
+          "id": "tax_full_shift",
+          "title": "痛みを伴う組み替えを断行",
+          "desc": "短期の反発は覚悟する。財政の持続性を優先する。",
+          "hint": "『正しい』は票にならない可能性がある。",
+          "effect": {
+            "structural": { "fiscalFlex": 1.2 },
+            "pressures": { "anxiety": 0.8, "fatigue": 0.4 },
+            "comms": { "transparency": 0.6 }
+          },
+          "consequenceTitle": "税制改革、反発と理解が同時に広がる",
+          "consequenceBody": "生活負担への不満は強い。一方で『先送りしなかった』との一定の評価も出た。",
+          "consequenceSeverity": "warn"
+        },
+        {
+          "id": "tax_limited_shift",
+          "title": "小幅な調整に留める",
+          "desc": "反発を抑えつつ、じわじわと改善を狙う。",
+          "hint": "問題は先送りされるかもしれない。",
+          "effect": {
+            "structural": { "fiscalFlex": 0.5 },
+            "pressures": { "anxiety": 0.3 }
+          },
+          "consequenceTitle": "税制は小変更、議論は燻る",
+          "consequenceBody": "大きな炎上は回避したが、将来の選択肢が増えたわけではない。",
+          "consequenceSeverity": "info"
+        },
+        {
+          "id": "tax_delay",
+          "title": "決断を先送りする",
+          "desc": "今は危機が多すぎる。今後に回す。",
+          "hint": "先送りは“別の形”で支払う。",
+          "effect": {
+            "structural": { "fiscalFlex": -0.7 },
+            "pressures": { "fatigue": 0.6, "anxiety": 0.4 }
+          },
+          "consequenceTitle": "先送りへの失望、静かに積もる",
+          "consequenceBody": "目に見える爆発はない。だが『何も変わらない』という諦めが広がった。",
+          "consequenceSeverity": "warn"
+        }
+      ]
+    },
+    {
+      "id": "education_push",
+      "title": "教育投資の優先",
+      "department": "教育省",
+      "tag": "教育",
+      "body": "危機対応に追われる今こそ、未来への投資を続けるべきだという意見があります。",
+      "sources": ["国営放送", "教育誌", "全国紙"],
+      "newsPings": ["教育投資拡大案、国会周辺で囁かれる", "『未来を削るな』という声が増える"],
+      "newsBodies": ["即効性は薄い。だが国家は、遅効性の決断で形を変える。", "目の前の火事と、10年後の国力が取引されている。"],
+      "choices": [
+        {
+          "id": "edu_full",
+          "title": "教育投資を拡充する",
+          "desc": "短期の余力を削ってでも、人的資本の蓄積を狙う。",
+          "hint": "支持率には直結しない可能性がある。",
+          "effect": {
+            "structural": { "educationBase": 1.2, "fiscalFlex": -0.4 },
+            "pressures": { "fatigue": 0.2 },
+            "comms": { "empathy": 0.3 }
+          },
+          "consequenceTitle": "教育投資、評価は割れる",
+          "consequenceBody": "『今やることではない』という声と、『今しかできない』という声がぶつかった。",
+          "consequenceSeverity": "info"
+        },
+        {
+          "id": "edu_limited",
+          "title": "現状維持（小幅な改善）",
+          "desc": "危機対応に配慮しつつ、最低限は守る。",
+          "hint": "劇的な変化は起きない。",
+          "effect": {
+            "structural": { "educationBase": 0.4 },
+            "pressures": { "fatigue": 0.1 }
+          },
+          "consequenceTitle": "教育は守られたが、期待は高まらない",
+          "consequenceBody": "悪化は止めた。しかし、国が変わるほどの勢いは生まれない。",
+          "consequenceSeverity": "info"
+        },
+        {
+          "id": "edu_cut",
+          "title": "教育を削り、危機対応へ回す",
+          "desc": "当面の火消しを優先する。",
+          "hint": "未来の選択肢が減る可能性がある。",
+          "effect": {
+            "structural": { "educationBase": -0.9, "fiscalFlex": 0.5 },
+            "pressures": { "anxiety": 0.3 }
+          },
+          "consequenceTitle": "『未来を売った』という批判",
+          "consequenceBody": "短期の余裕は生まれたが、将来不安はかえって強まった。",
+          "consequenceSeverity": "warn"
+        }
+      ]
+    }
+  ]
+}
