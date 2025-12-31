@@ -112,8 +112,11 @@ export function createCrisisSystem({ crisisDefs }){
       const earlyForce = stage === "worsening" && Math.random() < 0.20 && cr.pendingDecision == null;
 
       if(shouldForce || earlyForce){
-        cr.pendingDecision = buildDecision(def, stage, cr.id);
-        requiredDecisions.push(cr.pendingDecision);
+        const decision = buildDecision(def, stage, cr.id);
+        if(decision){
+          cr.pendingDecision = decision;
+          requiredDecisions.push(decision);
+        }
       }
     }
 
@@ -191,7 +194,11 @@ export function createCrisisSystem({ crisisDefs }){
   }
 
   function buildDecision(def, stage, crisisInstanceId){
-    const pool = def.decisions[stage] ?? def.decisions["breakout"];
+    // Fallback order: current stage > breakout > worsening
+    // This follows crisis escalation: signal → worsening → breakout → politicized
+    // Most crises define decisions at worsening or breakout stages
+    const pool = def.decisions[stage] ?? def.decisions["breakout"] ?? def.decisions["worsening"];
+    if(!pool || pool.length === 0) return null;
     const d = pick(pool);
 
     return {
