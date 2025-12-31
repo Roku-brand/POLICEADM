@@ -360,7 +360,13 @@ body{
   line-height:1.5;
 }
 
+@media (max-width: 1200px){
+  .layout{grid-template-columns: 1fr 1fr; }
+  .panel--map{grid-column: 1 / -1; }
+}
+
 @media (max-width: 960px){
   .layout{grid-template-columns: 1fr; }
   .brand{min-width:auto}
+  .panel--map{grid-column: auto; }
 }

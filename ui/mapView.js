@@ -18,15 +18,23 @@ export function mountMapView(container){
     { id: "coast", name: "沿岸地域", x: 80, y: 35, size: "small" },
   ];
 
-  let selectedRegion = null;
   let currentContext = null;
+  let currentRegionStatus = null;
+
+  // Use event delegation on the container to avoid memory leaks
+  container.addEventListener("click", (e) => {
+    const regionEl = e.target.closest("[data-region]");
+    if(regionEl && currentRegionStatus){
+      const regionId = regionEl.dataset.region;
+      showRegionInfo(regionId, currentRegionStatus);
+    }
+  });
 
   function render(ctx){
     currentContext = ctx;
-    const { nation, opinion, economy } = ctx;
 
     // Calculate region status based on hidden state
-    const regionStatus = calculateRegionStatus(ctx);
+    currentRegionStatus = calculateRegionStatus(ctx);
 
     container.innerHTML = `
       <div class="map">
@@ -54,7 +62,7 @@ export function mountMapView(container){
             <line x1="45" y1="40" x2="80" y2="35" stroke="rgba(255,255,255,0.1)" stroke-width="0.3"/>
             
             ${regions.map(r => {
-              const status = regionStatus[r.id] || "stable";
+              const status = currentRegionStatus[r.id] || "stable";
               const radius = r.size === "large" ? 8 : r.size === "medium" ? 6 : 4;
               const statusClass = status === "crisis" ? "map__region--bad" : 
                                   status === "warning" ? "map__region--warn" : "map__region--good";
@@ -75,16 +83,6 @@ export function mountMapView(container){
         </div>
       </div>
     `;
-
-    // Add click handlers
-    const canvas = container.querySelector("#mapCanvas");
-    canvas.addEventListener("click", (e) => {
-      const regionEl = e.target.closest("[data-region]");
-      if(regionEl){
-        const regionId = regionEl.dataset.region;
-        showRegionInfo(regionId, regionStatus);
-      }
-    });
   }
 
   function calculateRegionStatus(ctx){
