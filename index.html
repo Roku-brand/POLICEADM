@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>都市国家運営（危機管理ドリブン）MVP</title>
+  <link rel="stylesheet" href="./styles/style.css"/>
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand__title">都市国家運営</div>
+        <div class="brand__subtitle">危機管理ドリブン / 元首視点</div>
+      </div>
+      <div class="status">
+        <div class="status__item">
+          <div class="label">年</div>
+          <div id="uiYear" class="value">建国1年</div>
+        </div>
+        <div class="status__item">
+          <div class="label">支持率</div>
+          <div id="uiApproval" class="value">55%</div>
+        </div>
+        <div class="status__item">
+          <div class="label">GDP</div>
+          <div id="uiGdpTier" class="value">中成長</div>
+        </div>
+        <div class="status__item">
+          <div class="label">次の選挙</div>
+          <div id="uiElection" class="value">建国5年</div>
+        </div>
+      </div>
+      <div class="controls">
+        <button id="btnAdvance1" class="btn">次の年へ</button>
+        <button id="btnAdvance5" class="btn btn--ghost">5年進める</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel panel--news">
+        <div class="panel__head">
+          <h2>国家ニュース</h2>
+          <div class="pill" id="uiPhase">黎明期</div>
+        </div>
+        <div class="panel__body">
+          <div id="newsFeed" class="newsFeed"></div>
+        </div>
+      </section>
+
+      <section class="panel panel--side">
+        <div class="tabs" id="tabs">
+          <button class="tab tab--active" data-tab="brief">概要</button>
+          <button class="tab" data-tab="depts">部局報告</button>
+          <button class="tab" data-tab="inbox">通知</button>
+          <button class="tab" data-tab="history">年表</button>
+        </div>
+
+        <div class="panel__body panel__body--tight">
+          <div id="tabBrief" class="tabPane tabPane--active">
+            <div class="card">
+              <div class="card__title">状況サマリー</div>
+              <div class="card__text" id="briefText"></div>
+            </div>
+            <div class="card">
+              <div class="card__title">元首への助言（非正解）</div>
+              <div class="card__text" id="hintText"></div>
+            </div>
+            <div class="card">
+              <div class="card__title">注意</div>
+              <div class="card__text">
+                数値最適化はできません。国家の状態はニュースと報告書から読み取ってください。
+                危機は同時多発します。全対応は不可能です。
+              </div>
+            </div>
+          </div>
+
+          <div id="tabDepts" class="tabPane">
+            <div id="departmentView"></div>
+          </div>
+
+          <div id="tabInbox" class="tabPane">
+            <div id="inboxView" class="inbox"></div>
+          </div>
+
+          <div id="tabHistory" class="tabPane">
+            <div id="historyView" class="history"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Decision Modal -->
+  <div id="modalBackdrop" class="backdrop hidden"></div>
+  <div id="decisionModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal__head">
+      <div>
+        <div id="modalKicker" class="modal__kicker">緊急対応</div>
+        <div id="modalTitle" class="modal__title">決断が求められています</div>
+      </div>
+      <button id="modalClose" class="btn btn--ghost">閉じる</button>
+    </div>
+    <div id="modalBody" class="modal__body"></div>
+    <div class="modal__foot">
+      <div id="modalNote" class="modal__note">
+        効果は断定されません。結果は後でニュースとして現れます。
+      </div>
+    </div>
+  </div>
+
+  <!-- Game Over Modal -->
+  <div id="gameOverBackdrop" class="backdrop hidden"></div>
+  <div id="gameOverModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="goTitle">
+    <div class="modal__head">
+      <div>
+        <div class="modal__kicker">選挙結果</div>
+        <div id="goTitle" class="modal__title">政権崩壊</div>
+      </div>
+      <button id="goRestart" class="btn">最初から</button>
+    </div>
+    <div id="goBody" class="modal__body"></div>
+  </div>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
