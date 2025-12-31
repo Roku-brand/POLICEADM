@@ -1,0 +1,6 @@
+{
+  "delayRules": {
+    "crisis": { "min": 0, "max": 2, "chance": 0.45 },
+    "policy": { "min": 0, "max": 3, "chance": 0.55 }
+  }
+}
