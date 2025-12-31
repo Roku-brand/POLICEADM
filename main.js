@@ -11,6 +11,7 @@ import { mountDashboard } from "./ui/dashboard.js";
 import { mountNewsFeed } from "./ui/newsFeed.js";
 import { mountDepartmentView } from "./ui/departmentView.js";
 import { mountDecisionModal } from "./ui/decisionModal.js";
+import { mountMapView } from "./ui/mapView.js";
 
 async function loadJson(path){
   const res = await fetch(path);
@@ -41,6 +42,7 @@ function clamp(n, lo, hi){ return Math.max(lo, Math.min(hi, n)); }
   const dashboard = mountDashboard();
   const newsFeed = mountNewsFeed(document.getElementById("newsFeed"));
   const deptView = mountDepartmentView(document.getElementById("departmentView"), departments);
+  const mapView = mountMapView(document.getElementById("mapView"));
   const decisionModal = mountDecisionModal({
     onChoice: (payload) => handleDecision(payload),
   });
@@ -204,6 +206,9 @@ function clamp(n, lo, hi){ return Math.max(lo, Math.min(hi, n)); }
     dashboard.setGdpTier(economy.gdpTier);
     dashboard.setPhase(nation.phaseLabel);
     dashboard.setNextElection(election.nextElectionYear(nation));
+
+    // map
+    mapView.render({ nation, opinion, economy });
 
     // brief
     document.getElementById("briefText").textContent = buildBrief(nation, opinion, economy);
