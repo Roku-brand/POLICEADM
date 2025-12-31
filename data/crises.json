@@ -1,0 +1,473 @@
+{
+  "crises": [
+    {
+      "id": "flood",
+      "title": "首都圏洪水",
+      "category": "disaster",
+      "department": "インフラ庁",
+      "tag": "災害",
+      "baseHeat": 1,
+      "escalationChance": 0.62,
+      "newsPingChance": 0.60,
+      "forceDecisionAtStage": "breakout",
+      "sources": ["国営放送", "全国紙", "通信社"],
+      "headlines": {
+        "signal": ["河川水位が危険域に接近", "短時間の豪雨、排水能力に懸念"],
+        "worsening": ["低地で浸水、避難指示が拡大", "交通網が麻痺、物流に影響"],
+        "breakout": ["大規模洪水、都市機能が停止", "被害拡大、救助要請が相次ぐ"],
+        "politicized": ["洪水対応に批判噴出、政府の責任論", "復旧の遅れ、政権への不信が拡大"]
+      },
+      "bodies": {
+        "signal": ["一部地域で排水が追いつかず、住民の不安が高まっている。", "予算の先送りが、自然の前で露呈し始めた。"],
+        "worsening": ["復旧の遅れが生活の基盤を直撃している。", "現場は人手と資材が足りないと訴える。"],
+        "breakout": ["被害は広域に及び、公共サービスの維持が困難になっている。", "『想定外』という言葉は、国民を納得させない。"],
+        "politicized": ["災害そのものより、説明不足が火種になっている。", "責任追及が始まり、政局の空気が変わりつつある。"]
+      },
+      "decisions": {
+        "worsening": [
+          {
+            "title": "洪水対策の前倒し",
+            "body": "被害が拡大する兆候がある。早期の動きが政治的にも問われる。",
+            "choices": [
+              {
+                "id": "flood_preempt_full",
+                "title": "予防的に大規模動員",
+                "desc": "先に資源を投下し、拡大を抑えにいく。",
+                "hint": "『過剰』と見られる可能性もある。",
+                "effect": {
+                  "shocks": { "disaster": -0.9 },
+                  "pressures": { "fatigue": 0.2 },
+                  "structural": { "fiscalFlex": -0.6 },
+                  "comms": { "transparency": 0.3, "empathy": 0.3 }
+                }
+              },
+              {
+                "id": "flood_preempt_limited",
+                "title": "重点地域に限定して前倒し",
+                "desc": "政治的・財政的余力を残しつつ対応。",
+                "hint": "外れた地域が怒る可能性。",
+                "effect": {
+                  "shocks": { "disaster": -0.4 },
+                  "pressures": { "anxiety": 0.2 },
+                  "structural": { "fiscalFlex": -0.3 }
+                }
+              },
+              {
+                "id": "flood_preempt_delay",
+                "title": "推移を見てから判断",
+                "desc": "今は他の危機が多い。確度を待つ。",
+                "hint": "兆候を軽視すると致命傷になり得る。",
+                "effect": {
+                  "shocks": { "disaster": 0.5 },
+                  "pressures": { "anxiety": 0.5, "fatigue": 0.3 }
+                }
+              }
+            ]
+          }
+        ],
+        "breakout": [
+          {
+            "title": "洪水への緊急対応",
+            "body": "都市機能が止まりつつある。迅速な意思決定が必要だ。",
+            "choices": [
+              {
+                "id": "flood_full_support",
+                "title": "国家予備費を全面投入",
+                "desc": "大規模支援と復旧を優先する。",
+                "hint": "短期の支持は得やすいが、次の危機で詰む可能性。",
+                "effect": {
+                  "shocks": { "disaster": -1.4 },
+                  "pressures": { "fatigue": 0.4 },
+                  "structural": { "fiscalFlex": -1.2, "infraMaintenanceDebt": -0.8 },
+                  "comms": { "empathy": 0.5 }
+                }
+              },
+              {
+                "id": "flood_limited_support",
+                "title": "被害地域を限定支援",
+                "desc": "優先順位を付け、財政を温存する。",
+                "hint": "取り残された地域が政治問題化し得る。",
+                "effect": {
+                  "shocks": { "disaster": -0.8 },
+                  "pressures": { "anxiety": 0.6, "fatigue": 0.2 },
+                  "structural": { "fiscalFlex": -0.6 }
+                }
+              },
+              {
+                "id": "flood_delegate",
+                "title": "対応を地方に委任",
+                "desc": "中央の介入は最小限に留める。",
+                "hint": "『見捨てた』という印象が致命的になり得る。",
+                "effect": {
+                  "shocks": { "disaster": -0.3 },
+                  "pressures": { "anxiety": 0.9, "fatigue": 0.2 },
+                  "structural": { "fiscalFlex": -0.2 },
+                  "comms": { "transparency": -0.2 }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "choiceConsequences": {
+        "flood_full_support": {
+          "title": "洪水被害は沈静化、しかし財政に重い影",
+          "body": "短期的には救われた。だが『次の危機に耐えられるのか』という不安が芽を出した。",
+          "severity": "warn"
+        },
+        "flood_delegate": {
+          "title": "『中央は見捨てた』という物語が広がる",
+          "body": "対応の遅れ以上に、姿勢が批判された。支持は静かに削られる。",
+          "severity": "bad"
+        }
+      }
+    },
+
+    {
+      "id": "earthquake",
+      "title": "直下型地震",
+      "category": "disaster",
+      "department": "インフラ庁",
+      "tag": "災害",
+      "baseHeat": 1,
+      "escalationChance": 0.58,
+      "newsPingChance": 0.52,
+      "forceDecisionAtStage": "breakout",
+      "sources": ["国営放送", "全国紙", "地方紙"],
+      "headlines": {
+        "signal": ["微小地震が増加、専門家が警戒", "耐震性への不安、SNSで拡散"],
+        "worsening": ["余震が続く、避難所の整備が課題", "古い建物に被害、点検が急務"],
+        "breakout": ["大地震発生、ライフライン寸断", "死傷者多数、救助が追いつかず"],
+        "politicized": ["耐震政策の遅れが争点化", "復旧の遅れに政権批判"]
+      },
+      "bodies": {
+        "signal": ["備えの議論が再燃するが、具体策は進んでいない。", "『いつか』が『今日かもしれない』に変わる。"],
+        "worsening": ["現場は人員不足を訴える。危機は準備不足を暴く。", "避難所の不満が静かに溜まる。"],
+        "breakout": ["秩序と生活の維持が同時に崩れ始めた。", "政府の一言一言が、支持率を左右する。"],
+        "politicized": ["自然災害が政治災害に変わる瞬間がある。", "説明と責任が問われている。"]
+      },
+      "decisions": {
+        "breakout": [
+          {
+            "title": "地震への緊急対応",
+            "body": "救助・復旧・治安維持を同時に迫られている。",
+            "choices": [
+              {
+                "id": "eq_full",
+                "title": "国家総動員で救助・復旧",
+                "desc": "全資源を投入し、生活の回復を最優先。",
+                "hint": "財政余力は削れるが、政治的には強い。",
+                "effect": {
+                  "shocks": { "disaster": -1.3 },
+                  "pressures": { "fatigue": 0.5 },
+                  "structural": { "fiscalFlex": -1.1, "infraMaintenanceDebt": -0.6 },
+                  "comms": { "empathy": 0.6, "transparency": 0.2 }
+                }
+              },
+              {
+                "id": "eq_limited",
+                "title": "重点地域に集中",
+                "desc": "被害の大きい地域へ集中投入する。",
+                "hint": "取り残された地域の怒りが残る可能性。",
+                "effect": {
+                  "shocks": { "disaster": -0.8 },
+                  "pressures": { "anxiety": 0.7 },
+                  "structural": { "fiscalFlex": -0.7 }
+                }
+              },
+              {
+                "id": "eq_order_first",
+                "title": "治安維持を優先",
+                "desc": "混乱の封じ込めを前面に出す。",
+                "hint": "『冷たい政府』という印象が致命傷になり得る。",
+                "effect": {
+                  "shocks": { "disaster": -0.5 },
+                  "pressures": { "anxiety": 0.8, "fatigue": 0.2 },
+                  "comms": { "empathy": -0.3, "transparency": 0.1 }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+
+    {
+      "id": "terror",
+      "title": "テロ準備感知",
+      "category": "security",
+      "department": "国防省",
+      "tag": "安全保障",
+      "baseHeat": 1,
+      "escalationChance": 0.65,
+      "newsPingChance": 0.55,
+      "forceDecisionAtStage": "worsening",
+      "sources": ["通信社", "全国紙", "国営放送"],
+      "headlines": {
+        "signal": ["治安当局、懸念情報を把握", "警備強化の動き、街に緊張"],
+        "worsening": ["当局、複数拠点を捜索", "テロ計画の可能性、政府が対応協議"],
+        "breakout": ["未遂事件、社会に衝撃", "公共施設で騒動、警戒体制へ"],
+        "politicized": ["『なぜ防げなかったのか』が争点化", "監視強化に賛否、社会が割れる"]
+      },
+      "bodies": {
+        "signal": ["情報は断片的だが、見逃せば一撃で政権が揺れる。", "静かな緊張が街に漂う。"],
+        "worsening": ["対応の是非が難しい。強硬策は自由を削り、弱腰は命を削る。", "政府の姿勢が試されている。"],
+        "breakout": ["恐怖は理屈を超える。支持率は一夜で変わり得る。", "説明の一言が炎上を左右する。"],
+        "politicized": ["治安と自由の交換が、社会を分断する。", "『正しさ』より『納得』が争点になった。"]
+      },
+      "decisions": {
+        "worsening": [
+          {
+            "title": "テロ対策の方針",
+            "body": "未然に封じ込めるか。社会の自由を守るか。両立は難しい。",
+            "choices": [
+              {
+                "id": "terror_hard",
+                "title": "強硬な取り締まり・監視強化",
+                "desc": "疑わしきは徹底的に摘発する。",
+                "hint": "短期の安心は得るが、分断が残る。",
+                "effect": {
+                  "shocks": { "security": -0.4 },
+                  "pressures": { "inequality": 0.6, "anxiety": 0.3 },
+                  "structural": { "defenseReadiness": 0.6 },
+                  "comms": { "transparency": -0.2 }
+                }
+              },
+              {
+                "id": "terror_balanced",
+                "title": "限定的な警戒強化",
+                "desc": "必要最小限の対応で社会の緊張を抑える。",
+                "hint": "裏目に出れば『甘い』と叩かれる。",
+                "effect": {
+                  "shocks": { "security": -0.2 },
+                  "pressures": { "anxiety": 0.2 },
+                  "structural": { "defenseReadiness": 0.3 },
+                  "comms": { "transparency": 0.2 }
+                }
+              },
+              {
+                "id": "terror_soft",
+                "title": "社会への説明と協力要請を中心にする",
+                "desc": "過剰な弾圧を避け、情報提供を呼びかける。",
+                "hint": "事件化した場合の反動が大きい。",
+                "effect": {
+                  "shocks": { "security": 0.4 },
+                  "pressures": { "anxiety": 0.6 },
+                  "comms": { "empathy": 0.3, "transparency": 0.3 }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+
+    {
+      "id": "incursion",
+      "title": "領海侵犯",
+      "category": "security",
+      "department": "国防省",
+      "tag": "安全保障",
+      "baseHeat": 1,
+      "escalationChance": 0.60,
+      "newsPingChance": 0.55,
+      "forceDecisionAtStage": "breakout",
+      "sources": ["通信社", "国営放送", "全国紙"],
+      "headlines": {
+        "signal": ["周辺海域で不審船、警戒続く", "隣国の動き活発化、緊張高まる"],
+        "worsening": ["領海付近で対峙、外交ルートが緊迫", "国防省、監視体制の強化を検討"],
+        "breakout": ["領海侵犯を確認、政府が抗議", "偶発的衝突の懸念、社会が揺れる"],
+        "politicized": ["強硬論と慎重論が対立", "政府対応に賛否、分断が表面化"]
+      },
+      "bodies": {
+        "signal": ["静かな挑発が続く。反応の仕方が相手の計算に組み込まれている。", "一手の重みが増している。"],
+        "worsening": ["緊張は高まり続ける。放置は常態化を招く。", "強硬は衝突を呼び、慎重は弱腰と叩かれる。"],
+        "breakout": ["国民は結論を求める。だが結論はどれも代償を伴う。", "外交の失点は内政の失点に直結する。"],
+        "politicized": ["安全保障は票になるが、誤れば命の代償になる。", "『今の一手』が数十年を決める。"]
+      },
+      "decisions": {
+        "breakout": [
+          {
+            "title": "領海侵犯への対応",
+            "body": "強硬姿勢か、抑制か。いずれも政治的に燃える。",
+            "choices": [
+              {
+                "id": "incursion_hard",
+                "title": "強硬対応を前面に出す",
+                "desc": "毅然とした姿勢を示し、抑止を狙う。",
+                "hint": "緊張が固定化し得る。",
+                "effect": {
+                  "shocks": { "security": -0.3 },
+                  "pressures": { "anxiety": 0.3, "fatigue": 0.2 },
+                  "structural": { "defenseReadiness": 0.6 },
+                  "comms": { "transparency": 0.1 }
+                }
+              },
+              {
+                "id": "incursion_soft",
+                "title": "外交的に抑制しつつ抗議",
+                "desc": "衝突回避を優先する。",
+                "hint": "弱腰と見られる反動がある。",
+                "effect": {
+                  "shocks": { "security": 0.2 },
+                  "pressures": { "anxiety": 0.5 },
+                  "structural": { "defenseReadiness": 0.2 },
+                  "comms": { "transparency": 0.3 }
+                }
+              },
+              {
+                "id": "incursion_split",
+                "title": "国内向け強硬、対外的には抑制",
+                "desc": "両立を狙うが、整合性が試される。",
+                "hint": "言葉の齟齬が炎上する可能性。",
+                "effect": {
+                  "shocks": { "security": 0.0 },
+                  "pressures": { "fatigue": 0.3, "anxiety": 0.3 },
+                  "comms": { "transparency": -0.2, "empathy": 0.1 }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+
+    {
+      "id": "crash",
+      "title": "株価の暴落",
+      "category": "economy",
+      "department": "財政省",
+      "tag": "経済",
+      "baseHeat": 1,
+      "escalationChance": 0.67,
+      "newsPingChance": 0.58,
+      "forceDecisionAtStage": "worsening",
+      "sources": ["経済誌", "全国紙", "国営放送"],
+      "headlines": {
+        "signal": ["市場に不穏な空気、売りが先行", "金融関係者『嫌な予感』"],
+        "worsening": ["株価急落、家計と企業に波及", "投資家心理が冷え込む"],
+        "breakout": ["市場暴落、連鎖破綻の懸念", "失業の波、社会不安が拡大"],
+        "politicized": ["『政府は何をしていた』が争点化", "救済の是非で世論が割れる"]
+      },
+      "bodies": {
+        "signal": ["小さな揺れが、大きな崩落の前触れになる。", "平時の楽観が、危機のコストを増やす。"],
+        "worsening": ["生活実感が悪化すると、支持率は理屈を超えて下がる。", "打てる手はあるが、どれも代償を伴う。"],
+        "breakout": ["金融不安は速度が速い。説明が遅れるとパニックになる。", "救うのか、切り捨てるのか。どちらも地獄だ。"],
+        "politicized": ["『誰を救ったか』が政治になる。", "公平と実効の衝突が表面化した。"]
+      },
+      "decisions": {
+        "worsening": [
+          {
+            "title": "市場への介入方針",
+            "body": "連鎖を止めるか、過剰介入を避けるか。",
+            "choices": [
+              {
+                "id": "crash_full_bailout",
+                "title": "強い市場安定策",
+                "desc": "資金供給と救済を前面に出す。",
+                "hint": "『身内救済』の批判が起きる可能性。",
+                "effect": {
+                  "shocks": { "market": -1.2 },
+                  "pressures": { "inequality": 0.6, "fatigue": 0.3 },
+                  "structural": { "fiscalFlex": -1.0 },
+                  "comms": { "transparency": 0.2 }
+                }
+              },
+              {
+                "id": "crash_limited",
+                "title": "限定的な介入",
+                "desc": "最悪は止めるが、過剰救済は避ける。",
+                "hint": "中途半端と叩かれる可能性。",
+                "effect": {
+                  "shocks": { "market": -0.6 },
+                  "pressures": { "anxiety": 0.4 },
+                  "structural": { "fiscalFlex": -0.6 }
+                }
+              },
+              {
+                "id": "crash_no",
+                "title": "市場に委ねる",
+                "desc": "介入を最小限にし、財政を守る。",
+                "hint": "連鎖が起きれば支持は崩れる。",
+                "effect": {
+                  "shocks": { "market": 0.8 },
+                  "pressures": { "anxiety": 0.8, "inequality": 0.4 }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+
+    {
+      "id": "pandemic",
+      "title": "感染症の流行",
+      "category": "pandemic",
+      "department": "社会保障庁",
+      "tag": "公衆衛生",
+      "baseHeat": 1,
+      "escalationChance": 0.66,
+      "newsPingChance": 0.60,
+      "forceDecisionAtStage": "breakout",
+      "sources": ["国営放送", "全国紙", "医療専門誌"],
+      "headlines": {
+        "signal": ["原因不明の感染症、報告が増加", "一部地域で医療機関が警戒"],
+        "worsening": ["病床逼迫の兆し、医療現場が悲鳴", "感染拡大、行動制限の議論"],
+        "breakout": ["感染急増、都市機能に影響", "医療崩壊の懸念、社会が動揺"],
+        "politicized": ["対応の遅れに批判、政権責任論", "制限策に反発、社会が割れる"]
+      },
+      "bodies": {
+        "signal": ["小さな報告が、後で国家を止めることがある。", "『大丈夫』は情報ではなく願望だ。"],
+        "worsening": ["医療は余裕があるように見えて、限界は突然来る。", "説明が遅れるほど、不信が増える。"],
+        "breakout": ["感染の速度が政治の速度を追い越す。", "正しさより納得が争点になった。"],
+        "politicized": ["国民の我慢は有限だ。", "失敗は『数字』ではなく『記憶』として残る。"]
+      },
+      "decisions": {
+        "breakout": [
+          {
+            "title": "感染症への緊急対応",
+            "body": "社会の自由と医療の限界が衝突している。どれも痛みを伴う。",
+            "choices": [
+              {
+                "id": "pandemic_strict",
+                "title": "強い制限と医療動員",
+                "desc": "拡大抑制を最優先し、短期の痛みを受け入れる。",
+                "hint": "反発が出るが、後の被害は抑えられる可能性。",
+                "effect": {
+                  "shocks": { "pandemic": -1.3, "market": 0.3 },
+                  "pressures": { "fatigue": 0.7, "anxiety": -0.2 },
+                  "structural": { "publicHealthCapacity": 0.8, "fiscalFlex": -0.6 },
+                  "comms": { "transparency": 0.3, "empathy": 0.3 }
+                }
+              },
+              {
+                "id": "pandemic_balanced",
+                "title": "限定的な制限",
+                "desc": "社会の反発を抑えつつ、医療負荷を管理する。",
+                "hint": "中途半端と見られれば政治問題化。",
+                "effect": {
+                  "shocks": { "pandemic": -0.7, "market": 0.1 },
+                  "pressures": { "fatigue": 0.4, "anxiety": 0.2 },
+                  "structural": { "publicHealthCapacity": 0.4, "fiscalFlex": -0.4 }
+                }
+              },
+              {
+                "id": "pandemic_soft",
+                "title": "自主性に委ねる",
+                "desc": "強い制限を避け、呼びかけ中心とする。",
+                "hint": "拡大すれば『何をしていた』になる。",
+                "effect": {
+                  "shocks": { "pandemic": 0.7 },
+                  "pressures": { "anxiety": 0.8, "fatigue": 0.2 },
+                  "structural": { "publicHealthCapacity": -0.4 },
+                  "comms": { "transparency": 0.2 }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
