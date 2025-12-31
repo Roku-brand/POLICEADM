@@ -1,0 +1,9 @@
+{
+  "departments": [
+    { "id": "finance", "name": "財政省", "tone": "保身・言い回し重視" },
+    { "id": "infrastructure", "name": "インフラ庁", "tone": "現場主義・地味だが深刻" },
+    { "id": "defense", "name": "国防省", "tone": "危機煽り・最悪想定" },
+    { "id": "education", "name": "教育省", "tone": "楽観・成長志向" },
+    { "id": "welfare", "name": "社会保障庁", "tone": "生活実感・不安重視" }
+  ]
+}
