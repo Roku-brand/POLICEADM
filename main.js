@@ -39,6 +39,8 @@ window.addEventListener('resize', resizeCanvas);
 const player = {
   x: 100,
   y: 300,
+  prevX: 100,
+  prevY: 300,
   width: 40,
   height: 50,
   vx: 0,
@@ -49,15 +51,19 @@ const player = {
   frameTimer: 0,
   invincible: false,
   invincibleTimer: 0,
+  jumpRequested: false,
   
   reset() {
     this.x = 100;
     this.y = 300;
+    this.prevX = 100;
+    this.prevY = 300;
     this.vx = 0;
     this.vy = 0;
     this.onGround = false;
     this.invincible = false;
     this.invincibleTimer = 0;
+    this.jumpRequested = false;
   }
 };
 
@@ -81,9 +87,8 @@ document.addEventListener('keydown', (e) => {
     case 'Space':
     case 'ArrowUp':
     case 'KeyW':
-      if (player.onGround) {
-        keys.jump = true;
-      }
+      // Request jump - will be processed in update loop when on ground
+      player.jumpRequested = true;
       break;
     case 'KeyP':
     case 'Escape':
@@ -107,7 +112,7 @@ document.addEventListener('keyup', (e) => {
     case 'Space':
     case 'ArrowUp':
     case 'KeyW':
-      keys.jump = false;
+      player.jumpRequested = false;
       break;
   }
 });
@@ -252,6 +257,10 @@ function drawParticles() {
 
 // ===== UPDATE FUNCTIONS =====
 function updatePlayer() {
+  // Store previous position for collision detection
+  player.prevX = player.x;
+  player.prevY = player.y;
+  
   // Horizontal movement
   if (keys.left) {
     player.vx = -PLAYER_SPEED;
@@ -263,11 +272,11 @@ function updatePlayer() {
     player.vx *= FRICTION;
   }
   
-  // Jump
-  if (keys.jump && player.onGround) {
+  // Jump - process jump request when on ground
+  if (player.jumpRequested && player.onGround) {
     player.vy = JUMP_FORCE;
     player.onGround = false;
-    keys.jump = false;
+    player.jumpRequested = false;
     createParticles(player.x + player.width/2, player.y + player.height, '#ffffff', 5);
   }
   
@@ -287,18 +296,18 @@ function updatePlayer() {
     return;
   }
   
-  // Platform collision
+  // Platform collision - use stored previous position for accurate detection
   player.onGround = false;
   platforms.forEach(plat => {
     if (rectCollision(player, plat)) {
-      // Check if landing on top
-      if (player.vy > 0 && player.y + player.height - player.vy <= plat.y) {
+      // Check if landing on top (was above platform in previous frame)
+      if (player.vy > 0 && player.prevY + player.height <= plat.y + 5) {
         player.y = plat.y - player.height;
         player.vy = 0;
         player.onGround = true;
       }
-      // Check if hitting from below
-      else if (player.vy < 0 && player.y - player.vy >= plat.y + plat.height) {
+      // Check if hitting from below (was below platform in previous frame)
+      else if (player.vy < 0 && player.prevY >= plat.y + plat.height - 5) {
         player.y = plat.y + plat.height;
         player.vy = 0;
       }
@@ -379,13 +388,20 @@ function updateCoins() {
 
 function checkGoal() {
   if (goal && rectCollision(player, goal)) {
-    // Level complete!
+    // Level complete! Store goal position before generating new level
+    const oldGoalX = goal.x;
+    const oldGoalY = goal.y;
+    const oldGoalWidth = goal.width;
+    const oldGoalHeight = goal.height;
+    
     gameState.level++;
     gameState.score += 1000;
     gameState.cameraX = 0;
     player.reset();
     generateLevel(gameState.level);
-    createParticles(goal.x + goal.width/2, goal.y + goal.height/2, '#5ce07a', 30);
+    
+    // Create particles at the old goal position
+    createParticles(oldGoalX + oldGoalWidth/2, oldGoalY + oldGoalHeight/2, '#5ce07a', 30);
   }
 }
 
