@@ -1,15 +1,9 @@
+import { escapeHtml } from './utils.js';
+
 function badge(severity){
   if(severity === "bad") return "危機";
   if(severity === "warn") return "警戒";
   return "速報";
-}
-function escapeHtml(s){
-  return String(s)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
 }
 
 export function mountNewsFeed(container){

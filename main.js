@@ -61,7 +61,17 @@ let dataStore = null;
 
 // ========== INITIALIZATION ==========
 async function init(){
-  dataStore = await loadData();
+  try {
+    dataStore = await loadData();
+  } catch (error) {
+    console.error('Failed to load game data:', error);
+    showOverlay(
+      '読み込みエラー',
+      'ゲームデータの読み込みに失敗しました。ページを再読み込みしてください。',
+      false
+    );
+    return;
+  }
 
   // Mount UI
   dashboard = mountDashboard();
@@ -98,7 +108,7 @@ async function init(){
 
   // Event Listeners
   document.getElementById('startBtn').addEventListener('click', startGame);
-  document.getElementById('btnFastForward').addEventListener('click', handleAdvanceYear);
+  // Note: btnFastForward is handled in topBar.js
 
   // Show start overlay
   showOverlay(

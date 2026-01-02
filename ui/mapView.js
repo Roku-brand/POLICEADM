@@ -1,11 +1,4 @@
-function escapeHtml(s){
-  return String(s)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-}
+import { escapeHtml } from './utils.js';
 
 export function mountMapView(container){
   if(!container) return { render: () => {} };

@@ -1,14 +1,7 @@
 // Log Panel UI Component
 // Right side news log showing recent news items
 
-function escapeHtml(s){
-  return String(s)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-}
+import { escapeHtml } from './utils.js';
 
 function badge(severity){
   if(severity === "bad") return "危機";

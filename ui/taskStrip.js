@@ -1,14 +1,7 @@
 // Task Strip UI Component
 // Bottom row showing ongoing crisis and policy cards
 
-function escapeHtml(s){
-  return String(s)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-}
+import { escapeHtml } from './utils.js';
 
 export function mountTaskStrip({ onClick }){
   const taskCards = document.getElementById('taskCards');
