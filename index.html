@@ -10,38 +10,47 @@
   <div id="app">
     <header class="topbar">
       <div class="brand">
-        <div class="brand__title">都市国家運営</div>
-        <div class="brand__subtitle">危機管理ドリブン / 元首視点</div>
+        <div class="brand__icon">🏛️</div>
+        <div class="brand__text">
+          <div class="brand__title">都市国家運営</div>
+          <div class="brand__subtitle">危機管理ドリブン</div>
+        </div>
       </div>
       <div class="status">
-        <div class="status__item">
-          <div class="label">年</div>
-          <div id="uiYear" class="value">建国1年</div>
+        <div class="status__item status__item--year">
+          <div class="label">統治年</div>
+          <div id="uiYear" class="value value--large">建国1年</div>
         </div>
-        <div class="status__item">
-          <div class="label">支持率</div>
+        <div class="status__item status__item--approval">
+          <div class="label">👥 支持率</div>
           <div id="uiApproval" class="value">55%</div>
+          <div class="status__bar">
+            <div id="approvalBar" class="status__bar-fill" style="width: 55%"></div>
+          </div>
         </div>
         <div class="status__item">
-          <div class="label">GDP</div>
+          <div class="label">📈 経済</div>
           <div id="uiGdpTier" class="value">中成長</div>
         </div>
         <div class="status__item">
-          <div class="label">次の選挙</div>
+          <div class="label">🗳️ 選挙まで</div>
           <div id="uiElection" class="value">建国5年</div>
         </div>
       </div>
       <div class="controls">
-        <button id="btnAdvance1" class="btn">次の年へ</button>
-        <button id="btnAdvance5" class="btn btn--ghost">5年進める</button>
+        <button id="btnAdvance1" class="btn btn--primary btn--action">
+          <span class="btn__icon">⏩</span>
+          <span class="btn__text">次の年へ</span>
+        </button>
+        <button id="btnAdvance5" class="btn btn--secondary">5年進める</button>
       </div>
     </header>
 
     <main class="layout">
       <section class="panel panel--map">
         <div class="panel__head">
-          <h2>国家マップ</h2>
-          <div class="pill" id="uiPhase">黎明期</div>
+          <h2>🗺️ 国家マップ</h2>
+          <div class="pill pill--phase" id="uiPhase">黎明期</div>
         </div>
         <div class="panel__body">
           <div id="mapView"></div>
@@ -50,7 +59,8 @@
 
       <section class="panel panel--news">
         <div class="panel__head">
-          <h2>国家ニュース</h2>
+          <h2>📰 国家ニュース</h2>
+          <div class="pill pill--live">LIVE</div>
         </div>
         <div class="panel__body">
           <div id="newsFeed" class="newsFeed"></div>
