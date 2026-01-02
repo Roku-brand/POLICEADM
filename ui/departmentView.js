@@ -1,11 +1,4 @@
-function escapeHtml(s){
-  return String(s)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-}
+import { escapeHtml } from './utils.js';
 
 export function mountDepartmentView(container, departments){
   let selected = departments.departments[0]?.id ?? "finance";
