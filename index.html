@@ -3,87 +3,128 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>スーパーポリスアドベンチャー - 2Dプラットフォーマー</title>
+  <title>都市国家運営シミュレーション - 危機管理ドリブン</title>
   <link rel="stylesheet" href="./styles/style.css"/>
 </head>
 <body>
   <div id="app">
-    <!-- Game Header -->
-    <header class="game-header">
-      <div class="brand">
-        <div class="brand__icon">🎮</div>
-        <div class="brand__text">
-          <div class="brand__title">スーパーポリスアドベンチャー</div>
-          <div class="brand__subtitle">2Dプラットフォーマー</div>
+    <!-- (1) Top Bar: Year, Approval, GDP, Election, Speed -->
+    <header id="topBar" class="top-bar">
+      <div class="top-bar__brand">
+        <span class="top-bar__icon">🏛️</span>
+        <span class="top-bar__title">都市国家運営</span>
+      </div>
+      <div class="top-bar__stats">
+        <div class="top-bar__stat">
+          <span class="top-bar__label">年:</span>
+          <span id="uiYear" class="top-bar__value">建国1年</span>
+        </div>
+        <div class="top-bar__stat">
+          <span class="top-bar__label">支持率:</span>
+          <span id="uiApproval" class="top-bar__value top-bar__value--approval">55%</span>
+        </div>
+        <div class="top-bar__stat">
+          <span class="top-bar__label">GDP:</span>
+          <span id="uiGdpTier" class="top-bar__value">中成長</span>
+        </div>
+        <div class="top-bar__stat">
+          <span class="top-bar__label">時代:</span>
+          <span id="uiPhase" class="top-bar__value">黎明期</span>
+        </div>
+        <div class="top-bar__stat">
+          <span class="top-bar__label">次回選挙:</span>
+          <span id="uiElection" class="top-bar__value">建国5年</span>
         </div>
       </div>
-      <div class="game-stats">
-        <div class="stat-item">
-          <span class="stat-icon">❤️</span>
-          <span class="stat-label">ライフ:</span>
-          <span id="lives" class="stat-value">3</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-icon">⭐</span>
-          <span class="stat-label">スコア:</span>
-          <span id="score" class="stat-value">0</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-icon">🪙</span>
-          <span class="stat-label">コイン:</span>
-          <span id="coins" class="stat-value">0</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-icon">🏆</span>
-          <span class="stat-label">レベル:</span>
-          <span id="level" class="stat-value">1</span>
-        </div>
+      <div class="top-bar__controls">
+        <button id="btnFastForward" class="top-bar__btn" title="年を進める">
+          <span>⏩ 年を進める</span>
+        </button>
       </div>
     </header>
 
-    <!-- Main Game Area -->
-    <main class="game-container">
-      <canvas id="gameCanvas" width="1200" height="600"></canvas>
-      
-      <!-- Game Overlay (Start/Pause/Game Over screens) -->
-      <div id="gameOverlay" class="game-overlay">
-        <div class="overlay-content">
-          <h1 id="overlayTitle" class="overlay-title">🎮 スーパーポリスアドベンチャー</h1>
-          <p id="overlayMessage" class="overlay-message">矢印キーまたはWASDで移動、スペースでジャンプ！<br>コインを集めて、敵を避けながらゴールを目指せ！</p>
-          <div class="overlay-stats hidden" id="finalStats">
-            <div class="final-score">最終スコア: <span id="finalScore">0</span></div>
-          </div>
-          <button id="startBtn" class="btn btn--primary btn--large">ゲームスタート</button>
+    <!-- Main Layout: Left Command + Center Map + Right Panel -->
+    <main class="main-layout">
+      <!-- (3) Left Side: Command Panel -->
+      <aside id="commandPanel" class="command-panel">
+        <div class="command-panel__header">行動</div>
+        <div class="command-panel__list">
+          <button class="command-btn" data-action="crisis">
+            <span class="command-btn__icon">🚨</span>
+            <span class="command-btn__text">緊急対応</span>
+          </button>
+          <button class="command-btn" data-action="policy">
+            <span class="command-btn__icon">📋</span>
+            <span class="command-btn__text">政策決断</span>
+          </button>
+          <button class="command-btn" data-action="diplomacy">
+            <span class="command-btn__icon">🤝</span>
+            <span class="command-btn__text">外交姿勢</span>
+          </button>
         </div>
-      </div>
-      
-      <!-- Pause Menu -->
-      <div id="pauseMenu" class="pause-menu hidden">
-        <div class="pause-content">
-          <h2>⏸️ 一時停止</h2>
-          <button id="resumeBtn" class="btn btn--primary">再開</button>
-          <button id="restartBtn" class="btn btn--secondary">最初から</button>
+      </aside>
+
+      <!-- Center: Map View -->
+      <section class="center-area">
+        <!-- (2) Quick Menu (Top Right Shortcuts) -->
+        <nav id="quickMenu" class="quick-menu">
+          <button class="quick-menu__btn" data-view="news" title="ニュース">📰</button>
+          <button class="quick-menu__btn" data-view="department" title="部局報告">🏢</button>
+          <button class="quick-menu__btn quick-menu__btn--active" data-view="map" title="マップ">🗺️</button>
+          <button class="quick-menu__btn" data-view="security" title="安全保障">🛡️</button>
+          <button class="quick-menu__btn" data-view="economy" title="経済">💹</button>
+          <button class="quick-menu__btn" data-view="settings" title="設定">⚙️</button>
+        </nav>
+
+        <!-- (4)(5) Map Canvas with Pins and Crisis Overlays -->
+        <div id="mapContainer" class="map-container"></div>
+
+        <!-- Alternative Views (hidden by default) -->
+        <div id="newsViewContainer" class="view-container hidden"></div>
+        <div id="departmentViewContainer" class="view-container hidden"></div>
+        <div id="securityViewContainer" class="view-container hidden"></div>
+        <div id="economyViewContainer" class="view-container hidden"></div>
+        <div id="settingsViewContainer" class="view-container hidden"></div>
+      </section>
+
+      <!-- Right Side: Log Panel -->
+      <aside class="right-panel">
+        <!-- (7) News Log -->
+        <div id="logPanel" class="log-panel">
+          <div class="log-panel__header">📰 ニュース速報</div>
+          <div id="logContent" class="log-panel__content"></div>
         </div>
-      </div>
+      </aside>
     </main>
 
-    <!-- Controls Help -->
-    <footer class="game-footer">
-      <div class="controls-help">
-        <div class="control-item">
-          <kbd>←</kbd><kbd>→</kbd> または <kbd>A</kbd><kbd>D</kbd>
-          <span>移動</span>
-        </div>
-        <div class="control-item">
-          <kbd>Space</kbd> または <kbd>W</kbd><kbd>↑</kbd>
-          <span>ジャンプ</span>
-        </div>
-        <div class="control-item">
-          <kbd>P</kbd> または <kbd>Esc</kbd>
-          <span>一時停止</span>
-        </div>
-      </div>
+    <!-- (6) Bottom: Task Strip (Ongoing Crisis/Policy Cards) -->
+    <footer id="taskStrip" class="task-strip">
+      <div class="task-strip__header">進行中の案件</div>
+      <div id="taskCards" class="task-strip__cards"></div>
     </footer>
+
+    <!-- Decision Modal -->
+    <div id="modalBackdrop" class="modal-backdrop hidden"></div>
+    <div id="decisionModal" class="decision-modal hidden">
+      <div class="decision-modal__header">
+        <div id="modalKicker" class="decision-modal__kicker">決断</div>
+        <h2 id="modalTitle" class="decision-modal__title">決断が求められています</h2>
+        <button id="modalClose" class="decision-modal__close">✕</button>
+      </div>
+      <div id="modalBody" class="decision-modal__body"></div>
+    </div>
+
+    <!-- Game Over / Election Overlay -->
+    <div id="gameOverlay" class="game-overlay hidden">
+      <div class="overlay-content">
+        <h1 id="overlayTitle" class="overlay-title">🏛️ 都市国家運営シミュレーション</h1>
+        <p id="overlayMessage" class="overlay-message">あなたは都市国家の指導者です。<br>危機を乗り越え、国民の支持を維持し、選挙を勝ち抜いてください。</p>
+        <div class="overlay-stats hidden" id="finalStats">
+          <pre id="finalScore" class="final-score-text"></pre>
+        </div>
+        <button id="startBtn" class="btn btn--primary btn--large">ゲームを開始</button>
+      </div>
+    </div>
   </div>
 
   <script type="module" src="./main.js"></script>

@@ -8,6 +8,8 @@ function escapeHtml(s){
 }
 
 export function mountMapView(container){
+  if(!container) return { render: () => {} };
+
   // Region definitions for the nation
   const regions = [
     { id: "capital", name: "首都圏", x: 45, y: 40, size: "large" },
@@ -35,6 +37,9 @@ export function mountMapView(container){
 
     // Calculate region status based on hidden state
     currentRegionStatus = calculateRegionStatus(ctx);
+    
+    // Calculate crisis overlays
+    const crisisOverlays = calculateCrisisOverlays(ctx);
 
     container.innerHTML = `
       <div class="map">
@@ -47,6 +52,7 @@ export function mountMapView(container){
           </div>
         </div>
         <div class="map__canvas" id="mapCanvas">
+          ${crisisOverlays}
           <svg viewBox="0 0 100 100" class="map__svg">
             <!-- Nation outline -->
             <path d="M10 20 Q5 50 15 80 Q40 95 60 90 Q85 85 90 60 Q95 35 80 20 Q55 5 30 10 Q15 15 10 20" 
@@ -85,7 +91,67 @@ export function mountMapView(container){
     `;
   }
 
+  function calculateCrisisOverlays(ctx){
+    if(!ctx || !ctx.nation) return '';
+    
+    const { nation } = ctx;
+    const sh = nation.hidden.shocks;
+    const overlays = [];
+    
+    // Flood/Disaster overlay (blue)
+    if(sh.disaster > 1){
+      const intensity = Math.min(sh.disaster / 4, 1);
+      const size = 15 + intensity * 20;
+      overlays.push(`
+        <div class="crisis-overlay crisis-overlay--flood" 
+             style="left:30%;top:65%;width:${size}%;height:${size}%;opacity:${0.3 + intensity * 0.4}"></div>
+      `);
+    }
+    
+    // Pandemic overlay (purple)
+    if(sh.pandemic > 1){
+      const intensity = Math.min(sh.pandemic / 4, 1);
+      const size = 20 + intensity * 25;
+      overlays.push(`
+        <div class="crisis-overlay crisis-overlay--pandemic" 
+             style="left:40%;top:35%;width:${size}%;height:${size}%;opacity:${0.3 + intensity * 0.4}"></div>
+      `);
+    }
+    
+    // Security overlay (red)
+    if(sh.security > 1){
+      const intensity = Math.min(sh.security / 4, 1);
+      const size = 10 + intensity * 15;
+      overlays.push(`
+        <div class="crisis-overlay crisis-overlay--security" 
+             style="left:10%;top:20%;width:${size}%;height:${size}%;opacity:${0.3 + intensity * 0.4}"></div>
+      `);
+      overlays.push(`
+        <div class="crisis-overlay crisis-overlay--security" 
+             style="left:75%;top:30%;width:${size * 0.8}%;height:${size * 0.8}%;opacity:${0.3 + intensity * 0.3}"></div>
+      `);
+    }
+    
+    // Economy overlay (yellow/orange)
+    if(sh.market > 1){
+      const intensity = Math.min(sh.market / 4, 1);
+      const size = 15 + intensity * 20;
+      overlays.push(`
+        <div class="crisis-overlay crisis-overlay--economy" 
+             style="left:20%;top:50%;width:${size}%;height:${size}%;opacity:${0.2 + intensity * 0.3}"></div>
+      `);
+      overlays.push(`
+        <div class="crisis-overlay crisis-overlay--economy" 
+             style="left:60%;top:55%;width:${size * 0.7}%;height:${size * 0.7}%;opacity:${0.2 + intensity * 0.3}"></div>
+      `);
+    }
+    
+    return overlays.join('');
+  }
+
   function calculateRegionStatus(ctx){
+    if(!ctx || !ctx.nation) return {};
+    
     const { nation } = ctx;
     const st = nation.hidden.structural;
     const sh = nation.hidden.shocks;
