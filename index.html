@@ -3,142 +3,87 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>都市国家運営（危機管理ドリブン）MVP</title>
+  <title>スーパーポリスアドベンチャー - 2Dプラットフォーマー</title>
   <link rel="stylesheet" href="./styles/style.css"/>
 </head>
 <body>
   <div id="app">
-    <header class="topbar">
+    <!-- Game Header -->
+    <header class="game-header">
       <div class="brand">
-        <div class="brand__icon">🏛️</div>
+        <div class="brand__icon">🎮</div>
         <div class="brand__text">
-          <div class="brand__title">都市国家運営</div>
-          <div class="brand__subtitle">危機管理ドリブン</div>
+          <div class="brand__title">スーパーポリスアドベンチャー</div>
+          <div class="brand__subtitle">2Dプラットフォーマー</div>
         </div>
       </div>
-      <div class="status">
-        <div class="status__item status__item--year">
-          <div class="label">統治年</div>
-          <div id="uiYear" class="value value--large">建国1年</div>
+      <div class="game-stats">
+        <div class="stat-item">
+          <span class="stat-icon">❤️</span>
+          <span class="stat-label">ライフ:</span>
+          <span id="lives" class="stat-value">3</span>
         </div>
-        <div class="status__item status__item--approval">
-          <div class="label">👥 支持率</div>
-          <div id="uiApproval" class="value">55%</div>
-          <div class="status__bar">
-            <div id="approvalBar" class="status__bar-fill" style="width: 55%"></div>
-          </div>
+        <div class="stat-item">
+          <span class="stat-icon">⭐</span>
+          <span class="stat-label">スコア:</span>
+          <span id="score" class="stat-value">0</span>
         </div>
-        <div class="status__item">
-          <div class="label">📈 経済</div>
-          <div id="uiGdpTier" class="value">中成長</div>
+        <div class="stat-item">
+          <span class="stat-icon">🪙</span>
+          <span class="stat-label">コイン:</span>
+          <span id="coins" class="stat-value">0</span>
         </div>
-        <div class="status__item">
-          <div class="label">🗳️ 選挙まで</div>
-          <div id="uiElection" class="value">建国5年</div>
+        <div class="stat-item">
+          <span class="stat-icon">🏆</span>
+          <span class="stat-label">レベル:</span>
+          <span id="level" class="stat-value">1</span>
         </div>
-      </div>
-      <div class="controls">
-        <button id="btnAdvance1" class="btn btn--primary btn--action">
-          <span class="btn__icon">⏩</span>
-          <span class="btn__text">次の年へ</span>
-        </button>
-        <button id="btnAdvance5" class="btn btn--secondary">5年進める</button>
       </div>
     </header>
 
-    <main class="layout">
-      <section class="panel panel--map">
-        <div class="panel__head">
-          <h2>🗺️ 国家マップ</h2>
-          <div class="pill pill--phase" id="uiPhase">黎明期</div>
-        </div>
-        <div class="panel__body">
-          <div id="mapView"></div>
-        </div>
-      </section>
-
-      <section class="panel panel--news">
-        <div class="panel__head">
-          <h2>📰 国家ニュース</h2>
-          <div class="pill pill--live">LIVE</div>
-        </div>
-        <div class="panel__body">
-          <div id="newsFeed" class="newsFeed"></div>
-        </div>
-      </section>
-
-      <section class="panel panel--side">
-        <div class="tabs" id="tabs">
-          <button class="tab tab--active" data-tab="brief">概要</button>
-          <button class="tab" data-tab="depts">部局報告</button>
-          <button class="tab" data-tab="inbox">通知</button>
-          <button class="tab" data-tab="history">年表</button>
-        </div>
-
-        <div class="panel__body panel__body--tight">
-          <div id="tabBrief" class="tabPane tabPane--active">
-            <div class="card">
-              <div class="card__title">状況サマリー</div>
-              <div class="card__text" id="briefText"></div>
-            </div>
-            <div class="card">
-              <div class="card__title">元首への助言（非正解）</div>
-              <div class="card__text" id="hintText"></div>
-            </div>
-            <div class="card">
-              <div class="card__title">注意</div>
-              <div class="card__text">
-                数値最適化はできません。国家の状態はニュースと報告書から読み取ってください。
-                危機は同時多発します。全対応は不可能です。
-              </div>
-            </div>
+    <!-- Main Game Area -->
+    <main class="game-container">
+      <canvas id="gameCanvas" width="1200" height="600"></canvas>
+      
+      <!-- Game Overlay (Start/Pause/Game Over screens) -->
+      <div id="gameOverlay" class="game-overlay">
+        <div class="overlay-content">
+          <h1 id="overlayTitle" class="overlay-title">🎮 スーパーポリスアドベンチャー</h1>
+          <p id="overlayMessage" class="overlay-message">矢印キーまたはWASDで移動、スペースでジャンプ！<br>コインを集めて、敵を避けながらゴールを目指せ！</p>
+          <div class="overlay-stats hidden" id="finalStats">
+            <div class="final-score">最終スコア: <span id="finalScore">0</span></div>
           </div>
-
-          <div id="tabDepts" class="tabPane">
-            <div id="departmentView"></div>
-          </div>
-
-          <div id="tabInbox" class="tabPane">
-            <div id="inboxView" class="inbox"></div>
-          </div>
-
-          <div id="tabHistory" class="tabPane">
-            <div id="historyView" class="history"></div>
-          </div>
+          <button id="startBtn" class="btn btn--primary btn--large">ゲームスタート</button>
         </div>
-      </section>
+      </div>
+      
+      <!-- Pause Menu -->
+      <div id="pauseMenu" class="pause-menu hidden">
+        <div class="pause-content">
+          <h2>⏸️ 一時停止</h2>
+          <button id="resumeBtn" class="btn btn--primary">再開</button>
+          <button id="restartBtn" class="btn btn--secondary">最初から</button>
+        </div>
+      </div>
     </main>
-  </div>
 
-  <!-- Decision Modal -->
-  <div id="modalBackdrop" class="backdrop hidden"></div>
-  <div id="decisionModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="modal__head">
-      <div>
-        <div id="modalKicker" class="modal__kicker">緊急対応</div>
-        <div id="modalTitle" class="modal__title">決断が求められています</div>
+    <!-- Controls Help -->
+    <footer class="game-footer">
+      <div class="controls-help">
+        <div class="control-item">
+          <kbd>←</kbd><kbd>→</kbd> または <kbd>A</kbd><kbd>D</kbd>
+          <span>移動</span>
+        </div>
+        <div class="control-item">
+          <kbd>Space</kbd> または <kbd>W</kbd><kbd>↑</kbd>
+          <span>ジャンプ</span>
+        </div>
+        <div class="control-item">
+          <kbd>P</kbd> または <kbd>Esc</kbd>
+          <span>一時停止</span>
+        </div>
       </div>
-      <button id="modalClose" class="btn btn--ghost">閉じる</button>
-    </div>
-    <div id="modalBody" class="modal__body"></div>
-    <div class="modal__foot">
-      <div id="modalNote" class="modal__note">
-        効果は断定されません。結果は後でニュースとして現れます。
-      </div>
-    </div>
-  </div>
-
-  <!-- Game Over Modal -->
-  <div id="gameOverBackdrop" class="backdrop hidden"></div>
-  <div id="gameOverModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="goTitle">
-    <div class="modal__head">
-      <div>
-        <div class="modal__kicker">選挙結果</div>
-        <div id="goTitle" class="modal__title">政権崩壊</div>
-      </div>
-      <button id="goRestart" class="btn">最初から</button>
-    </div>
-    <div id="goBody" class="modal__body"></div>
+    </footer>
   </div>
 
   <script type="module" src="./main.js"></script>
